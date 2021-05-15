@@ -36,7 +36,7 @@ namespace ConsoleApp1
 			{
 				var tmp = new List<int>();
 
-				for (int i = 0; i < size; i++) tmp.Add(rnd.Next(0, 10));
+				for (int i = 0; i < size; i++) tmp.Add(rnd.Next(1, 10));
 
 				return tmp;
 			}
@@ -48,11 +48,11 @@ namespace ConsoleApp1
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.Title = "15.05.2021 | 263";
 		}
-		
+
 		static void Main()
 		{
 			LoadSettings();
-			
+
 			bool check_status = false;
 			while (!check_status)
 			{
@@ -60,12 +60,28 @@ namespace ConsoleApp1
 				{
 					Tools.CW("Введите размер массива: ");
 
-					int size = int.Parse(Console.ReadLine());
-					List<int> buffer = MyRandom.GetList(size);
+					List<int> buffer = MyRandom.GetList(
+						int.Parse(Console.ReadLine())
+					);
 
 					buffer.Sort();
 
 					Tools.ShowBuffer(buffer);
+
+
+					Tools.CW("\nВведите чо нада: ");
+					int p = Convert.ToInt32(Console.ReadLine());
+
+					int tmp1 = buffer.Find(x => x == p);
+					if (tmp1 == 0)
+					{
+						Tools.CWL("Элемента нема");
+					}
+					else
+					{
+						Tools.CWL($"Найдено: {tmp1}");
+						Tools.CWL($"Индекс: {buffer.FindIndex(x => x == tmp1)}");
+					}
 
 					check_status = true;
 				}
@@ -73,7 +89,6 @@ namespace ConsoleApp1
 
 				Tools.READ_LINE();
 			}
-			
 		}
 	}
 }
