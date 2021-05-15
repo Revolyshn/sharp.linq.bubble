@@ -9,40 +9,69 @@ namespace ConsoleApp1
 {
 	class Program
 	{
-		static void CWL(string txt) => Console.WriteLine(txt);
-		static void CW(string txt) => Console.Write(txt);
-		static Random rnd = new Random(Environment.TickCount);
-
-		public static List<int> GetList(int size)
+		static class Tools
 		{
-			var tmp = new List<int>();
-
-			for (int i = 0; i < size; i++) tmp.Add(rnd.Next(0, 10));
-
-			return tmp;
+			public static void READ_LINE() => Console.ReadLine();
+			public static void CWL(string txt) => Console.WriteLine(txt);
+			public static void CW(string txt) => Console.Write(txt);
+			public static void ERROR(string txt)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				CWL(txt);
+				Console.ForegroundColor = ConsoleColor.White;
+			}
+			public static void ShowBuffer(List<int> buffer)
+			{
+				Console.ForegroundColor = ConsoleColor.Cyan;
+				foreach (var item in buffer) CW($"{item} ");
+				Console.ForegroundColor = ConsoleColor.White;
+			}
 		}
 
-
-		static void Main(string[] args)
+		static class MyRandom
 		{
-			while (true)
+			static Random rnd = new Random(Environment.TickCount);
+
+			public static List<int> GetList(int size)
+			{
+				var tmp = new List<int>();
+
+				for (int i = 0; i < size; i++) tmp.Add(rnd.Next(0, 10));
+
+				return tmp;
+			}
+		}
+
+		static void LoadSettings()
+		{
+			Tools.CWL("> Hello my friend!");
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.Title = "15.05.2021 | 263";
+		}
+		
+		static void Main()
+		{
+			LoadSettings();
+			
+			bool check_status = false;
+			while (!check_status)
 			{
 				try
 				{
-					CW("Введите размер массива: ");
+					Tools.CW("Введите размер массива: ");
 
 					int size = int.Parse(Console.ReadLine());
-					List<int> buffer = GetList(size);
-					//buffer.Sort();
-					buffer.GroupBy(x => buffer);
-					CWL("press f");
-				}
-				catch (Exception er)
-				{
-					CWL(er.ToString());
-				}
+					List<int> buffer = MyRandom.GetList(size);
 
-				Console.ReadLine();
+					buffer.Sort();
+
+					Tools.ShowBuffer(buffer);
+
+					check_status = true;
+				}
+				catch (Exception er) { Tools.ERROR(er.Message); }
+
+				Tools.READ_LINE();
 			}
 			
 		}
